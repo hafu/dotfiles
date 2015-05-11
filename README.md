@@ -20,15 +20,16 @@ added dotfiles, a filemap and if necessary backups.
 ### init
 
 Initialize (bootstraps) dotfiles. Any existing files will be backed up
-to <scriptdir>/backup/<timestamp>/<dir>/<filename>. So an existing
-~/.vimrc is saved under backup/1234567890/.vimrc and ~/.i3/config under
-backup/1234567890/.i3/config.
+to `<scriptdir>/backup/<timestamp>/<dir>/<filename>`. So an existing
+`~/.vimrc` is saved under `backup/1234567890/.vimrc` and `~/.i3/config` under
+`backup/1234567890/.i3/config`.
 
 So it works:
-1. checks if there is a FILEMAP
-2. checks for branch with the same name as the hostname itself and ask
+
+0. checks if there is a FILEMAP
+0. checks for branch with the same name as the hostname itself and ask
 to use it or if not exist create one
-3. reads the FILEMAP and creates a link for every item - existing files
+0. reads the FILEMAP and creates a link for every item - existing files
 will be backed up
 
 Example:
