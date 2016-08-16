@@ -122,6 +122,9 @@ function add {
 	# add to mapping
 	echo "$FILENTMP $FILE" >> "$FILEMAP"
 
+	# add FILEMAP to git
+	git add "$FILEMAP"
+
 	echo "don't forget to commit the changes"
 }
 
@@ -176,8 +179,9 @@ function del {
 	# copy to orign
 	cp "$SRC" "$DST"
 	
-	# delete from FILEMAP
-	sed -i "/$LINE/d" "$FILEMAP"
+	# delete from FILEMAP and cleanup
+	echo "$(grep -v "$LINE" "$FILEMAP")" > "$FILEMAP"
+	sed -i '/^ *$/d' "$FILEMAP"
 
 	# git rm file
 	echo "delete file from git repro?"
@@ -185,15 +189,23 @@ function del {
 	RT=$?
 	if [ $RT -eq 1 ]; then
 		git rm "$SRC"
+		# getting dirty
+		if [ $? -ne 0 ]; then
+			git reset HEAD -- "$SRC"
+			rm "$SRC"
+		fi
 	fi
 
 	# rm file
 	echo "delete file from fs?"
-	ask_yes_np
+	ask_yes_no
 	RT=$?
 	if [ $RT -eq 1 ]; then
 		rm "$DST"
 	fi
+
+	# add FILEMAP to git
+	git add "$FILEMAP"
 
 }
 
