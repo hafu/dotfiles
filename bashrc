@@ -114,6 +114,18 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
+# start ssh-agent
+ssh-add -l &>/dev/null
+if [ "$?" == 2 ]; then
+    test -r ~/.ssh-agent && eval "$(<~/.ssh-agent)" >/dev/null
+
+    ssh-add -l &>/dev/null
+    if [ "$?" == 2 ]; then
+        (umask 066; ssh-agent > ~/.ssh-agent)
+        eval "$(<~/.ssh-agent)" >/dev/null
+    fi
+fi
+
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
@@ -124,3 +136,4 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
