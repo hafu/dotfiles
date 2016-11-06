@@ -10,14 +10,20 @@ esac
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
-HISTCONTROL=ignoreboth
+HISTCONTROL='ignoreboth:erasedups'
 
 # append to the history file, don't overwrite it
 shopt -s histappend
 
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
+# let's keep all
+# see http://stackoverflow.com/a/19533853
+HISTFILESIZE=
+HISTSIZE=
+HISTFILE=~/.bash_large_history
+# change format
+HISTTIMEFORMAT='%F %T '
+# save after command
+PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -43,7 +49,7 @@ esac
 # uncomment for a colored prompt, if the terminal has the capability; turned
 # off by default to not distract the user: the focus in a terminal window
 # should be on the output of commands, not on the prompt
-#force_color_prompt=yes
+force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
@@ -57,7 +63,17 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    if [ -f ~/scripts/git-prompt.sh ]; then
+        . ~/scripts/git-prompt.sh
+        GIT_PS1_SHOWDIRTYSTATE=1
+        GIT_PS1_SHOWSTASHSTATE=1
+        GIT_PS1_SHOWUNTRACKEDFILES=1
+        GIT_PS1_SHOWUPSTREAM="auto"
+        GIT_PS1_STATESEPARATOR=":"
+        PS1='${debian_chroot:+($debian_chroot)}[\[\033[1;30m\]\u\[\033[0m\]@\[\033[0;32m\]\h\[\033[0m\]:\[\033[0;34m\]\w\[\033[0m\]$(__git_ps1 " \[\033[0;35m\](%s)\[\033[0m\]")]\n\$ '
+    else
+        PS1='${debian_chroot:+($debian_chroot)}[\[\033[1;30m\]\u\[\033[0m\]@\[\033[0;32m\]\h\[\033[0m\]:\[\033[0;34m\]\w\[\033[0m\]]\n\$ '
+    fi
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
