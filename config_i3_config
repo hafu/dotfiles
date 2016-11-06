@@ -112,14 +112,10 @@ bindsym $mod+Shift+R restart
 bindsym $mod+Shift+E exit
 
 # lock screen and turn it off
-#bindsym Control+mod1+l exec --no-startup-id gnome-screensaver-command -l && sleep 5 && xset dpms force off
-bindsym Control+mod1+l exec --no-startup-id i3lock -i ~/.i3/lock_bg.png -e && sleep 3 && xset dpms force off
-# suspend
-#bindcode Control+179 exec gnome-screensaver-command -l && sleep 2 && sudo systemctl suspend
+bindsym Control+mod1+l exec --no-startup-id i3lock -c d3d3d3 -e && sleep 3 && xset dpms force off
+# suspend / hibernate
 bindcode Control+179 exec i3lock -i ~/.i3/lock_bg.png -e && sudo systemctl suspend
-#bindcode Control+179 exec i3lock -i ~/.i3/lock_bg.png -e && sudo /usr/sbin/pm-suspend
 bindcode Control+mod1+179 exec sudo systemctl hibernate
-#bindcode Control+mod1+179 exec sudo /usr/sbin/pm-hibernate
 
 # Brightness
 bindsym XF86MonBrightnessUp exec xbacklight -inc 5
@@ -129,11 +125,6 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 5
 bindsym XF86AudioRaiseVolume exec --no-startup-id /usr/bin/pactl set-sink-volume 0 +5% &
 bindsym XF86AudioLowerVolume exec --no-startup-id /usr/bin/pactl set-sink-volume 0 -5% &
 bindsym XF86AudioMute exec --no-startup-id /usr/bin/pactl set-sink-mute 0 toggle &
-#bindsym XF86AudioRaiseVolume exec --no-startup-id /home/hannes/scripts/osd.sh vol_up &
-#bindsym XF86AudioLowerVolume exec --no-startup-id /home/hannes/scripts/osd.sh vol_down &
-#bindsym XF86AudioMute exec --no-startup-id /home/hannes/scripts/osd.sh mute &
-#bindsym XF86MonBrightnessUp exec --no-startup-id /home/hannes/scripts/osd.sh backlight_up &
-#bindsym XF86MonBrightnessDown exec --no-startup-id /home/hannes/scripts/osd.sh backlight_down &
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -158,42 +149,17 @@ mode "resize" {
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
-
 bindsym $mod+r mode "resize"
 
 workspace_auto_back_and_forth yes
-#workspace 9 output VGA
 
 #start useful deamons and apps
 exec --no-startup-id /usr/bin/dunst &
-#exec --no-startup-id /opt/pa-applet/bin/pa-applet &
 exec --no-startup-id xset +dpms
 exec --no-startup-id xset dpms 0 0 300
-# ~100mW power
-#exec --no-startup-id xautolock -time 10 -locker "i3lock -i ~/.i3/lock_bg.png -e -d" &
-# synclient settings...
-#exec --no-startup-id /usr/bin/synclient MinSpeed=2 MaxSpeed=2.5
-
-
-
-#start apps
-#exec --no-startup-id i3-msg 'workspace 1; exec /opt/firefox/firefox'
-#exec --no-startup-id i3-msg 'workspace 2; exec gajim; workspace 1'
-#exec --no-startup-id i3-msg 'workspace 2; exec skype; workspace 1'
-#exec --no-startup-id i3-msg 'workspace 4; exec icedove; workspace 1'
-
-assign [class="Firefox"] "1:www"
-for_window [class="Firefox"] focus
-assign [class="Chromium"] "1:www"
-for_window [class="Chromium"] focus
-assign [class="Icedove"] "3:mail"
-for_window [class="Icedove"] focus
-
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-#	status_command    /usr/bin/python3 ~/build_dir/i3pystatus/test.py
         status_command i3status
-	#strip_workspace_numbers yes
 }
