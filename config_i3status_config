@@ -1,0 +1,111 @@
+general {
+        colors = true
+        interval = 10
+}
+
+order += "ipv6"
+#order += "disk /"
+order += "run_watch DHCP"
+#order += "run_watch VPN"
+order += "wireless wlp4s0"
+order += "ethernet enp3s0"
+order += "ethernet tun0"
+order += "disk /home"
+order += "battery 0"
+#order += "cpu_temperature 0"
+#order += "cpu_temperature 1"
+#order += "cpu_temperature 2"
+order += "cpu_temperature 3"
+order += "cpu_temperature 4"
+order += "load"
+order += "cpu_usage"
+order += "volume master"
+order += "time"
+
+
+wireless wlp4s0 {
+        format_up = "wlp4s0: (%quality @ %essid, %bitrate / %frequency) %ip"
+        format_down = "wlp4s0: down"
+}
+
+ethernet enp3s0 {
+        # if you use %speed, i3status requires root privileges
+        format_up = "enp3s0: %ip (%speed)"
+        format_down = "enp3s0: down"
+        #format_down = ""
+}
+
+ethernet tun0 {
+        # if you use %speed, i3status requires root privileges
+        format_up = "V: %ip"
+        format_down = "V: down"
+        #format_down = ""
+}
+
+battery 0 {
+	#last_full_capacity = true
+    format = "%status %percentage %remaining (%emptytime %consumption)"
+	path = "/sys/class/power_supply/BAT%d/uevent"
+}
+
+run_watch DHCP {
+        pidfile = "/var/run/dhclient-*.pid"
+}
+
+run_watch VPN {
+        pidfile = "/var/run/vpnc/pid"
+}
+
+time {
+        format = "%Y-%m-%d %H:%M:%S"
+}
+
+load {
+        format = "%1min"
+}
+
+disk "/" {
+        format = "%free"
+}
+
+disk "/home" {
+        format = "%free"
+}
+
+cpu_temperature 0 {
+	#format = "T_hwm2: %degrees °C"
+	format = "T: %degrees °C"
+	path = "/sys/devices/virtual/hwmon/hwmon2/temp1_input"
+}
+
+cpu_temperature 1 {
+	format = "T: %degrees °C"
+	path = "/sys/devices/virtual/thermal/thermal_zone0/temp"
+}
+
+cpu_temperature 2 {
+	format = "P0: %degrees °C"
+	path = "/sys/devices/platform/coretemp.0/hwmon/hwmon1/temp1_input"
+}
+
+cpu_temperature 3 {
+	format = "C0: %degrees °C"
+	path = "/sys/devices/platform/coretemp.0/hwmon/hwmon1/temp2_input"
+}
+
+cpu_temperature 4 {
+	format = "C1: %degrees °C"
+	path = "/sys/devices/platform/coretemp.0/hwmon/hwmon1/temp3_input"
+}
+
+cpu_usage {
+	format = "%usage"
+}
+
+volume master {
+	format = "♪: %volume"
+	#format_muted = "♪: muted (%volume)"
+	format_muted = ""
+	device = "pulse:0"
+}
+
