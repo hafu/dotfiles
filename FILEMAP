@@ -1,3 +1,4 @@
 config_i3_config ~/.config/i3/config
 config_i3status_config ~/.config/i3status/config
 bashrc ~/.bashrc
+Xresources ~/.Xresources
