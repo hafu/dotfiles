@@ -63,8 +63,8 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    if [ -f ~/scripts/git-prompt.sh ]; then
-        . ~/scripts/git-prompt.sh
+    if [ -f /usr/lib/git-core/git-sh-prompt ]; then
+        . /usr/lib/git-core/git-sh-prompt
         GIT_PS1_SHOWDIRTYSTATE=1
         GIT_PS1_SHOWSTASHSTATE=1
         GIT_PS1_SHOWUNTRACKEDFILES=1
