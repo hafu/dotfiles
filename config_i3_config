@@ -102,6 +102,7 @@ bindsym $mod+Shift+slash move container to workspace 7
 bindsym $mod+Shift+parenleft move container to workspace 8
 bindsym $mod+Shift+parenright move container to workspace 9
 bindsym $mod+Shift+equal move container to workspace 10
+bindsym $mod+Tab workspace back_and_forth
 
 # move workspace
 bindsym $mod+m move workspace to output left
