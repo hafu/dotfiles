@@ -1,0 +1,9 @@
+# tmux keybindings
+# rebind to ctrl+o
+escape ^Bb
+# TODO: rebind split keys?
+
+# caption setup
+caption always
+# tmux default look a like
+caption string '%{= gk}[%S] %-w %n:%t* %+w %="Hostname: %H" %c %d-%M-%y'

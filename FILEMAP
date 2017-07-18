@@ -2,3 +2,4 @@ config_i3_config ~/.config/i3/config
 vimrc ~/.vimrc
 bashrc ~/.bashrc
 tmp_.screenrc ~/tmp/.screenrc
+screenrc ~/.screenrc
