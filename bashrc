@@ -7,6 +7,8 @@
 
 # ignore duplicate lines or lines starting with space
 HISTCONTROL='ignoreboth:erasedups'
+# When the shell exits, append to the history file instead of overwriting it
+shopt -s histappend
 
 # let's keep all
 # see http://stackoverflow.com/a/19533853
@@ -17,6 +19,10 @@ HISTFILE=~/.bash_large_history
 HISTTIMEFORMAT='%F %T '
 # save after command
 PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+# After each command, append to the history file and reread it
+#PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
+# http://unix.stackexchange.com/a/18443
+#PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
 
 # more colorful output
 alias ls='ls --color=auto'
@@ -59,3 +65,5 @@ if [ "$?" == 2 ]; then
 		eval "$(<~/.ssh-agent)" >/dev/null
 	fi
 fi
+
+export EDITOR=vim
