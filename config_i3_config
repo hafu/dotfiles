@@ -29,6 +29,9 @@ font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
+# floating windows
+for_window [class="Tor Browser"] floating enable
+
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
 
