@@ -18,7 +18,8 @@ font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 floating_modifier $mod
 
 # floating windows
-for_window [class="Tor Browser"] floating enable
+for_window [title="Tor Browser"] floating enable
+for_window [class="qjackctl"] floating enable
 
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
@@ -126,9 +127,12 @@ bindsym XF86MonBrightnessUp exec xbacklight -inc 5
 bindsym XF86MonBrightnessDown exec xbacklight -dec 5
 
 # multimedia
-bindsym XF86AudioRaiseVolume exec --no-startup-id /usr/bin/pactl set-sink-volume $(/usr/bin/pacmd list-sinks | grep -e 'index' | head -n1 | awk '{print $3}') +5% 
-bindsym XF86AudioLowerVolume exec --no-startup-id /usr/bin/pactl set-sink-volume $(/usr/bin/pacmd list-sinks | grep -e 'index' | head -n1 | awk '{print $3}') -5% 
-bindsym XF86AudioMute exec --no-startup-id /usr/bin/pactl set-sink-mute $(/usr/bin/pacmd list-sinks | grep -e 'index' | head -n1 | awk '{print $3}') toggle 
+#bindsym XF86AudioRaiseVolume exec --no-startup-id /usr/bin/pactl set-sink-volume $(/usr/bin/pacmd list-sinks | grep -e 'index' | head -n1 | awk '{print $3}') +5% 
+#bindsym XF86AudioLowerVolume exec --no-startup-id /usr/bin/pactl set-sink-volume $(/usr/bin/pacmd list-sinks | grep -e 'index' | head -n1 | awk '{print $3}') -5% 
+#bindsym XF86AudioMute exec --no-startup-id /usr/bin/pactl set-sink-mute $(/usr/bin/pacmd list-sinks | grep -e 'index' | head -n1 | awk '{print $3}') toggle 
+bindsym XF86AudioRaiseVolume exec --no-startup-id /usr/bin/pactl set-sink-volume $(/usr/bin/pacmd list-sinks | grep -e 'index' -e 'alsa.card_name' | grep -e 'PCH' -B1 | head -n1 | awk '{print $NF}') +5% 
+bindsym XF86AudioLowerVolume exec --no-startup-id /usr/bin/pactl set-sink-volume $(/usr/bin/pacmd list-sinks | grep -e 'index' -e 'alsa.card_name' | grep -e 'PCH' -B1 | head -n1 | awk '{print $NF}') -5% 
+bindsym XF86AudioMute exec --no-startup-id /usr/bin/pactl set-sink-mute $(/usr/bin/pacmd list-sinks | grep -e 'index' -e 'alsa.card_name' | grep -e 'PCH' -B1 | head -n1 | awk '{print $NF}') toggle 
 
 # resize window (you can also use the mouse for that)
 mode "resize" {

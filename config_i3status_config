@@ -76,7 +76,7 @@ disk "/home" {
 cpu_temperature 0 {
 	#format = "T_hwm2: %degrees °C"
 	format = "T: %degrees °C"
-	path = "/sys/devices/virtual/hwmon/hwmon2/temp1_input"
+	path = "/sys/devices/virtual/hwmon/hwmon1/temp1_input"
 }
 
 cpu_temperature 1 {
@@ -91,11 +91,13 @@ cpu_temperature 2 {
 
 cpu_temperature 3 {
 	format = "C0: %degrees °C"
+	#path = "/sys/devices/platform/coretemp.0/hwmon/hwmon2/temp2_input"
 	path = "/sys/devices/platform/coretemp.0/hwmon/hwmon1/temp2_input"
 }
 
 cpu_temperature 4 {
 	format = "C1: %degrees °C"
+	#path = "/sys/devices/platform/coretemp.0/hwmon/hwmon2/temp3_input"
 	path = "/sys/devices/platform/coretemp.0/hwmon/hwmon1/temp3_input"
 }
 
