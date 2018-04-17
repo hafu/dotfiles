@@ -3,3 +3,5 @@ config_i3status_config ~/.config/i3status/config
 bashrc ~/.bashrc
 Xresources ~/.Xresources
 vimrc ~/.vimrc
+zshrc ~/.zshrc
+zprofile ~/.zprofile
