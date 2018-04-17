@@ -17,23 +17,23 @@ order += "wireless _first_"
 order += "ethernet _first_"
 order += "battery all"
 order += "cpu_temperature P0"
-order += "cpu_temperature C0"
-order += "cpu_temperature C1"
-order += "cpu_temperature C2"
-order += "cpu_temperature C3"
+#order += "cpu_temperature C0"
+#order += "cpu_temperature C1"
+#order += "cpu_temperature C2"
+#order += "cpu_temperature C3"
 order += "load"
 order += "cpu_usage"
 order += "tztime local"
 
 wireless _first_ {
-        format_up = "wlp: (%quality @ %essid, %bitrate / %frequency) %ip"
-        format_down = "wlp: down"
+        format_up = "wl: (%quality @ %essid, %bitrate / %frequency) %ip"
+        format_down = "wl: down"
 }
 
 ethernet _first_ {
         # if you use %speed, i3status requires root privileges
-        format_up = "enp: %ip (%speed)"
-        format_down = "enp: down"
+        format_up = "en: %ip (%speed)"
+        format_down = "en: down"
 }
 
 battery all {
@@ -59,25 +59,25 @@ cpu_usage {
 
 cpu_temperature P0 {
 	format = "P0: %degrees °C"
-	path = "/sys/devices/platform/coretemp.0/hwmon/hwmon4/temp1_input"
+	path = "/sys/devices/platform/coretemp.0/hwmon/hwmon3/temp1_input"
 }
 
 cpu_temperature C0 {
 	format = "C0: %degrees °C"
-	path = "/sys/devices/platform/coretemp.0/hwmon/hwmon4/temp2_input"
+	path = "/sys/devices/platform/coretemp.0/hwmon/hwmon3/temp2_input"
 }
 
 cpu_temperature C1 {
 	format = "C1: %degrees °C"
-	path = "/sys/devices/platform/coretemp.0/hwmon/hwmon4/temp3_input"
+	path = "/sys/devices/platform/coretemp.0/hwmon/hwmon3/temp3_input"
 }
 
 cpu_temperature C2 {
 	format = "C2: %degrees °C"
-	path = "/sys/devices/platform/coretemp.0/hwmon/hwmon4/temp4_input"
+	path = "/sys/devices/platform/coretemp.0/hwmon/hwmon3/temp4_input"
 }
 
 cpu_temperature C3 {
 	format = "C0: %degrees °C"
-	path = "/sys/devices/platform/coretemp.0/hwmon/hwmon4/temp5_input"
+	path = "/sys/devices/platform/coretemp.0/hwmon/hwmon3/temp5_input"
 }
