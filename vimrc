@@ -10,3 +10,5 @@ hi ColorColumn ctermbg=LightGray
 set tabstop=4
 set shiftwidth=4
 set expandtab
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab indentkeys-=<:>
+nnoremap <F5> :buffers<CR>:buffer<Space>
