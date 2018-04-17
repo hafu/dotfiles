@@ -1,3 +1,27 @@
+Xft.dpi: 141
+Xft.antialias: true
+Xft.hinting: true
+Xft.rgba: rgb
+Xft.autohint: false
+!Xft.hintstyle: hintslight
+Xft.hintstyle: hintsmedium
+Xft.lcdfilter: lcddefault
+
+!! Fira Code Retina 8 | Fira Code 8 | Input Mono 8
+!! Fira Code Retina 8 | Fira Code 8 | Input Mono 8
+!! Andale Mono 9 | Bitstream Vera Sans Mono 9 | DejaVu Sans Mono 9 | Ubuntu Mono 10
+!xterm*faceName: Ubuntu Mono:size=10:antialias=true
+!xterm*faceName: InputMono ExLight:size=8:antialias=true
+!xterm*faceName: Input Mono:size=7:antialias=true
+!xterm*faceName: InputMono ExLight:size=7:antialias=true
+! 5 matches lines with default font
+!xterm*faceName: InputMono ExLight:size=5:antialias=true
+! matches more lines default
+!xterm*faceName: Ubuntu Mono:size=6:antialias=true
+!xterm*faceName: Input Mono:size=6:antialias=true
+xterm*faceName: InputMono ExLight:size=6:antialias=true
+
+
 xterm*metaSendsEscape: true
 !================================
 !! tango theme
@@ -36,5 +60,7 @@ xterm*color15:                 #eeeeec
 xterm*mainMenu*background:  #323232
 xterm*vtMenu*background:    #323232
 xterm*fontMenu*background:  #323232
+
+!xoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxoxox
 
 ! vim: ai:si:et:ts=4:sw=4:ft=xdefaults:
