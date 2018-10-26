@@ -46,6 +46,14 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
 setopt COMPLETE_ALIASES
 
+settermtitle () {
+    case $TERM in
+        *xterm*|rxvt|(dt|k|E)term)
+            print -Pn "\e]0;%n@%m: %~\a"
+            ;;
+    esac
+}
+
 # VCS integration
 # TODO: only for git atm, use internal for other VCS
 if [[ -r /usr/lib/git-core/git-sh-prompt ]]; then
@@ -57,6 +65,7 @@ if [[ -r /usr/lib/git-core/git-sh-prompt ]]; then
     GIT_PS1_STATESEPARATOR=":"
     precmd() {
         __git_ps1 "$PS_PART1%F{magenta}" "%f$PS_PART2" " (%s)"
+        settermtitle
     }
 else
     # fallback to internal
@@ -74,6 +83,7 @@ else
         else
             PS1="${PS_PART1}${PS_PART2}"
         fi
+        settermtitle
     } 
 fi
 
