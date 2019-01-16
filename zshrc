@@ -96,5 +96,8 @@ if [[ -x /usr/bin/dircolors ]]; then
     alias egrep='egrep --color=auto'
 fi
 
+# expand path
+export PATH=$PATH:$HOME/bin
+
 # Alt+. may improve
 bindkey '\e.' insert-last-word
