@@ -13,14 +13,20 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-#font pango:monospace 8
+#font pango:monospace 6
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
+#font pango:DejaVu Sans Mono 12
 #font pango:DejaVu Sans Mono 8
+##font pango:DejaVu Sans Mono 6
+#font pango:InputMono ExLight 6
+#font pango:InputMono Medium 7
+#font pango:InputMono Medium 5
+#font pango:InputMono Medium 4
 
 # Before i3 v4.8, we used to recommend this one as the default:
-font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+#font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # The font above is very space-efficient, that is, it looks good, sharp and
 # clear in small sizes. However, its unicode glyph coverage is limited, the old
 # X core fonts rendering does not support right-to-left and this being a bitmap
@@ -29,6 +35,10 @@ font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
+# floating windows
+for_window [title="Tor Browser"] floating enable
+for_window [class="Tor Browser"] floating enable
+
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
 
@@ -36,7 +46,8 @@ bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run
+bindsym $mod+d exec dmenu_run 
+#bindsym $mod+d exec dmenu_run -fn "InputMono Medium:size=6"
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -103,6 +114,7 @@ bindsym $mod+7 workspace 7
 bindsym $mod+8 workspace 8
 bindsym $mod+9 workspace 9
 bindsym $mod+0 workspace 10
+bindsym $mod+0xdf workspace "11:mon"
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace "1:www"
@@ -115,14 +127,20 @@ bindsym $mod+Shift+7 move container to workspace 7
 bindsym $mod+Shift+8 move container to workspace 8
 bindsym $mod+Shift+9 move container to workspace 9
 bindsym $mod+Shift+0 move container to workspace 10
+bindsym $mod+Shift+0xdf move container to workspace "11:mon"
 bindsym $mod+Tab workspace back_and_forth
+
+# move workspace
+bindsym $mod+m move workspace to output left
+bindysm $mod+Shift+m move workspace to output right
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e exit
+
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -152,13 +170,34 @@ bindsym $mod+r mode "resize"
 
 # custom key bindings
 # lock the screen with i3lock
-bindsym Control+mod1+l exec --no-startup-id i3lock -f
+#bindsym Control+mod1+l exec --no-startup-id i3lock -f
+# lock sreen and turn it off
+bindsym Control+mod1+l exec --no-startup-id i3lock -c d3d3d3 -e -f && sleep 3 && xset dpms force off
+bindsym XF86Display exec --no-startup-id /home/hfuchs/bin/toggle-monitor
+# suspend / hibernate
+bindcode Control+179 exec --no-startup-id i3lock -c d3d3d3 -e -f && systemctl suspend
+bindcode Control+mod1+179 exec --no-startup-id systemctl hibernate
+# multimedia
+bindsym XF86AudioRaiseVolume exec --no-startup-id /usr/bin/pactl set-sink-volume $(/usr/bin/pacmd list-sinks | grep -e 'index' -e 'alsa.card_name' | grep -e 'PCH' -B1 | head -n1 | awk '{print $NF}') +5% 
+bindsym XF86AudioLowerVolume exec --no-startup-id /usr/bin/pactl set-sink-volume $(/usr/bin/pacmd list-sinks | grep -e 'index' -e 'alsa.card_name' | grep -e 'PCH' -B1 | head -n1 | awk '{print $NF}') -5% 
+bindsym XF86AudioMute exec --no-startup-id /usr/bin/pactl set-sink-mute $(/usr/bin/pacmd list-sinks | grep -e 'index' -e 'alsa.card_name' | grep -e 'PCH' -B1 | head -n1 | awk '{print $NF}') toggle 
+# pactl set-source-mute 1 toggle
+bindsym XF86AudioMicMute exec --no-startup-id /usr/bin/pactl set-source-mute $(/usr/bin/pacmd list-sources | grep -e 'alsa_input' -e 'active.*-mic' -B1 | head -n1 | awk '{print $NF}') toggle
 
 # enable automatic back and forth switching
 workspace_auto_back_and_forth yes
+
+# start stuff
+# fuck you libinput
+#exec --no-startup-id /usr/bin/xinput --set-prop "Dell WM615 Mouse" "libinput Middle Emulation Enabled" 1
+#exec --no-startup-id /usr/bin/xinput --set-prop "Dell WM615 Mouse" "libinput Accel Speed" -0.75
+#exec --no-startup-id /usr/bin/xinput --set-prop "Dell WM615 Mouse" "libinput Accel Profile Enabled" 0, 0
+#exec --no-startup-id /usr/bin/xinput --set-prop "Dell WM615 Mouse" 
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
         status_command i3status
+        #font pango:Input Mono 10
+        #font pango:InputMono ExLight 10
 }
