@@ -15,6 +15,7 @@ order += "ipv6"
 #order += "disk /"
 order += "wireless _first_"
 order += "ethernet _first_"
+order += "disk /home"
 order += "battery all"
 order += "cpu_temperature P0"
 #order += "cpu_temperature C0"
@@ -23,6 +24,7 @@ order += "cpu_temperature P0"
 #order += "cpu_temperature C3"
 order += "load"
 order += "cpu_usage"
+order += "volume master"
 order += "tztime local"
 
 wireless _first_ {
@@ -53,6 +55,10 @@ disk "/" {
         format = "%avail"
 }
 
+disk "/home" {
+        format = "/home %avail"
+}
+
 cpu_usage {
 	format = "%usage"
 }
@@ -80,4 +86,11 @@ cpu_temperature C2 {
 cpu_temperature C3 {
 	format = "C0: %degrees °C"
 	path = "/sys/devices/platform/coretemp.0/hwmon/hwmon3/temp5_input"
+}
+
+volume master {
+	format = "♪: %volume"
+	#format_muted = "♪: muted (%volume)"
+	format_muted = ""
+	device = "pulse:0"
 }
