@@ -50,13 +50,13 @@ function is_in_filemap {
 	grep -c "$1" "$FILEMAP"
 }
 
-# get the relative path of the file
-function relative_path_of_file {
+# get the absolute path of the file
+function absolute_path_of_file {
 	echo "$(cd "$(dirname "$1")" && pwd -P)"/"$(basename "$1")"
 }
 
-# get the relative directory of the file
-function relative_dir_of_file {
+# get the absolute directory of the file
+function absolute_dir_of_file {
 	cd "$(dirname "$1")" && pwd -P
 }
 
@@ -92,7 +92,7 @@ function add {
 		exit 1
 	fi
 	
-	FILE_REL=$(relative_path_of_file "$1")
+	FILE_REL=$(absolute_path_of_file "$1")
 	FILE=${FILE_REL/$HOME/\~}
 
 	# check if already in list
@@ -136,7 +136,7 @@ function del {
 		exit 1
 	fi
 
-	FILE_REL=$(relative_path_of_file "$1")
+	FILE_REL=$(absolute_path_of_file "$1")
 
 	# file in scriptdir?
 	if [[ "$FILE_REL" =~ $SCRIPTDIR ]]; then
@@ -239,7 +239,7 @@ function init {
 		DST="${DST/#\~/$HOME}"
 		SRC="${SCRIPTDIR}/$SRC"
 
-		DSTDIR=$(relative_dir_of_file "$DST")
+		DSTDIR=$(absolute_dir_of_file "$DST")
 
 		# backup files, if exists
 		if [ -e "$DST" ] && [ ! -L "$DST" ]; then
