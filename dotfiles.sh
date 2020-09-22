@@ -179,7 +179,7 @@ function del {
 	cp "$SRC" "$DST"
 	
 	# delete from FILEMAP and cleanup
-	sed -i "|$LINE|d" "$FILEMAP"
+	grep -v "$LINE" "$FILEMAP" > "${FILEMAP}.tmp" && mv "${FILEMAP}.tmp" "$FILEMAP"
 	sed -i '/^ *$/d' "$FILEMAP"
 
 	# git rm file
@@ -187,8 +187,10 @@ function del {
 	ask_yes_no
 	RT=$?
 	if [ $RT -eq 1 ]; then
+		git rm "$SRC"
+		RT=$?
 		# getting dirty
-		if [ "$(git rm "$SRC")" ]; then
+		if [ $RT -ne 0 ]; then
 			git reset HEAD -- "$SRC"
 			rm "$SRC"
 		fi
