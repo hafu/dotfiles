@@ -1,0 +1,17 @@
+---
+window:
+  # Window padding (changes require restart)
+  #
+  # Blank space added around the window in pixels. This padding is scaled
+  # by DPI and the specified value is always added at both opposing sides.
+  padding:
+    x: 2
+    y: 2
+
+  # Allow terminal applications to change Alacritty's window title.
+  dynamic_title: true
+
+# Font configuration (changes require restart)
+font:
+  # The size to use.
+  size: 11
