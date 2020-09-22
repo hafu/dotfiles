@@ -48,7 +48,7 @@ setopt COMPLETE_ALIASES
 
 settermtitle () {
     case $TERM in
-        *xterm*|rxvt|(dt|k|E)term)
+        *xterm*|rxvt|(dt|k|E)term|alacritty)
             print -Pn "\e]0;%n@%m: %~\a"
             ;;
     esac
