@@ -47,24 +47,24 @@ function is_in_filemap {
 	if [ ! -f "$FILEMAP" ]; then
 		touch "$FILEMAP"
 	fi
-	echo $(grep "$1" "$FILEMAP" | wc -l)
+	grep -c "$1" "$FILEMAP"
 }
 
 # get the relative path of the file
 function relative_path_of_file {
-	echo $(cd $(dirname "$1") && pwd -P)/$(basename "$1")
+	echo "$(cd "$(dirname "$1")" && pwd -P)"/"$(basename "$1")"
 }
 
 # get the relative directory of the file
 function relative_dir_of_file {
-	echo $(cd $(dirname "$1") && pwd -P)
+	cd "$(dirname "$1")" && pwd -P
 }
 
 # ask yes or no question -> return 1 for yes and 0 for no
 function ask_yes_no {
 	L=0
 	while [ $L -eq 0 ]; do
-		read -p "Type yes/no:" YN
+		read -rp "Type yes/no:" YN
 		case $YN in
 			[Yy]* )
 				L=1
@@ -96,13 +96,13 @@ function add {
 	FILE=${FILE_REL/$HOME/\~}
 
 	# check if already in list
-	if [ $(is_in_filemap "$FILE") -ge 1 -o -L "$FILE_REL" ]; then
+	if [ "$(is_in_filemap "$FILE")" -ge 1 ] || [ -L "$FILE_REL" ]; then
 		echo "file $FILE already in git?"
 		exit 1
 	fi
 
 	# check if in $HOME
-	if [[ ! "$FILE_REL"  =~ "$HOME" ]]; then
+	if [[ ! "$FILE_REL"  =~ $HOME ]]; then
 		echo "file $FILE_REL seems to be not in $HOME"
 		exit 1
 	fi	
@@ -137,19 +137,18 @@ function del {
 	fi
 
 	FILE_REL=$(relative_path_of_file "$1")
-	FILE_DIR=$(relative_dir_of_file "$1")
 
 	# file in scriptdir?
-	if [[ "$FILE_REL" =~ "$SCRIPTDIR" ]]; then
+	if [[ "$FILE_REL" =~ $SCRIPTDIR ]]; then
 		FILE=${FILE_REL/$SCRIPTDIR/}
-	elif [[ "$FILE_REL"  =~ "$HOME" ]]; then
+	elif [[ "$FILE_REL"  =~ $HOME ]]; then
 		FILE=${FILE_REL/$HOME/\~}
 	else
 		echo "error on deleting file $1 - wrong dir"
 		exit 1
 	fi
 	
-	if [ $(is_in_filemap "$FILE") -ge 1 ]; then
+	if [ "$(is_in_filemap "$FILE")" -ge 1 ]; then
 		# get the line -> src and dst
 		LINE=$(grep "$FILE" "$FILEMAP")
 		SRC=$(echo "$LINE" | cut -d" " -f1)
@@ -162,7 +161,7 @@ function del {
 	fi
 
 	# both should exists
-	if [ -z	"$SRC" -o -z "$DST" -o ! -e "$SRC" -o ! -e "$DST" ]; then
+	if [ -z	"$SRC" ] || [ -z "$DST" ] || [ ! -e "$SRC" ] || [ ! -e "$DST" ]; then
 		echo "error on deleting file $1 -> src: $SRC dst: $DST"
 		exit 1
 	fi
@@ -180,7 +179,7 @@ function del {
 	cp "$SRC" "$DST"
 	
 	# delete from FILEMAP and cleanup
-	echo "$(grep -v "$LINE" "$FILEMAP")" > "$FILEMAP"
+	sed -i "|$LINE|d" "$FILEMAP"
 	sed -i '/^ *$/d' "$FILEMAP"
 
 	# git rm file
@@ -188,9 +187,8 @@ function del {
 	ask_yes_no
 	RT=$?
 	if [ $RT -eq 1 ]; then
-		git rm "$SRC"
 		# getting dirty
-		if [ $? -ne 0 ]; then
+		if [ "$(git rm "$SRC")" ]; then
 			git reset HEAD -- "$SRC"
 			rm "$SRC"
 		fi
@@ -212,13 +210,13 @@ function del {
 # initalizate 
 function init {
 	echo "initializate (backup, move and link)"
-	if [ ! -f "$FILEMAP" -o ! -r "$FILEMAP" ]; then
+	if [ ! -f "$FILEMAP" ] || [ ! -r "$FILEMAP" ]; then
 		echo "couldn't read filemapping: $FILEMAP"
 		exit 1
 	fi
 
 	#check branch
-	if [ $(git branch --no-color --no-column --list "$HOSTNAME" | wc -l ) -eq 1 ]; then
+	if [ "$(git branch --no-color --no-column --list "$HOSTNAME" | wc -l )" -eq 1 ]; then
 		echo "found a branch for hostname ${HOSTNAME}, checkout?"
 		ask_yes_no
 		RV=$?
@@ -236,7 +234,7 @@ function init {
 
 	BAKDIR="$SCRIPTDIR/backup/$(date +%s)/"
 
-	while read SRC DST
+	while read -r SRC DST
 	do
 		DST="${DST/#\~/$HOME}"
 		SRC="${SCRIPTDIR}/$SRC"
@@ -244,24 +242,24 @@ function init {
 		DSTDIR=$(relative_dir_of_file "$DST")
 
 		# backup files, if exists
-		if [ -e "$DST" -a ! -L "$DST" ]; then
+		if [ -e "$DST" ] && [ ! -L "$DST" ]; then
 			if [ ! -d "$BAKDIR" ]; then
 				mkdir -p "$BAKDIR" || exit 1
 			fi
 
 			#if [[ ! "$FILE_REL"  =~ "$HOME" ]]; then
-			if [[ "$DSTDIR" =~ "$HOME" ]]; then
-				TBAKDIR="${BAKDIR}${DSTDIR/$HOME/}/"
-				mkdir -p "$TBAKDIR" || exit 1
+			if [[ "$DSTDIR" =~ $HOME ]]; then
+				TBACKDIR="${BAKDIR}${DSTDIR/$HOME/}/"
+				mkdir -p "$TBACKDIR" || exit 1
 			else
 				TBACKDIR="$BAKDIR"
 			fi	
 	
 			echo "File $DST exists, creating backup"
-			mv "$DST" "$TBAKDIR"
+			mv "$DST" "$TBACKDIR"
 		fi
 
-		if [ -e "$DST" -a -L "$DST" ]; then
+		if [ -e "$DST" ] && [ -L "$DST" ]; then
 			echo "$DST is already a symlink, skipping"
 			continue
 		fi
@@ -269,7 +267,7 @@ function init {
 		# create dir
 		if [ ! -e "$DSTDIR" ]; then
 			mkdir -p "$DSTDIR" || exit 1
-		elif [ -e "$DSTDIR" -a ! -d "$DSTDIR" ]; then
+		elif [ -e "$DSTDIR" ] && [ ! -d "$DSTDIR" ]; then
 			echo "$DSTDIR exists and ist not a directory!"
 			exit 1
 		fi
