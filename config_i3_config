@@ -186,7 +186,7 @@ bindsym XF86AudioMute exec --no-startup-id /usr/bin/pactl set-sink-mute $(/usr/b
 bindsym XF86AudioMicMute exec --no-startup-id /usr/bin/pactl set-source-mute $(/usr/bin/pacmd list-sources | grep -e 'alsa_input' -e 'active.*-mic' -B1 | head -n1 | awk '{print $NF}') toggle
 # screenshot 
 bindsym --release Print exec --no-startup-id /usr/bin/scrot '/tmp/Screenshot_%Y-%m-%d_%H-%M-%S.png' -e 'xclip -selection clipboard -target image/png -i $f && notify-send "Screenshot saved as $f"'
-bindsym --release Alt+Print exec --no-startup-id /usr/bin/scrot -u -b '/tmp/Screenshot_%Y-%m-%d_%H-%M-%S.png' -e 'xclip -selection clipboard -target image/png -i $f && notify-send "Screenshot saved as $f"'
+bindsym --release Control+Print exec --no-startup-id /usr/bin/scrot -u -b '/tmp/Screenshot_%Y-%m-%d_%H-%M-%S.png' -e 'xclip -selection clipboard -target image/png -i $f && notify-send "Screenshot saved as $f"'
 bindsym --release $mod+Print exec --no-startup-id /usr/bin/scrot -s '/tmp/Screenshot_%Y-%m-%d_%H-%M-%S.png' -e 'xclip -selection clipboard -target image/png -i $f && notify-send "Screenshot saved as $f"'
 
 # enable automatic back and forth switching
