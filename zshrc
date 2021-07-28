@@ -96,6 +96,9 @@ if [[ -x /usr/bin/dircolors ]]; then
     alias egrep='egrep --color=auto'
 fi
 
+# set term on ssh connections
+alias ssh='TERM=xterm-256color ssh'
+
 # expand path
 export PATH=$PATH:$HOME/bin
 
