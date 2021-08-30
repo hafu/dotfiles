@@ -1,0 +1,102 @@
+# i3status configuration file.
+# see "man i3status" for documentation.
+
+# It is important that this file is edited as UTF-8.
+# The following line should contain a sharp s:
+# ß
+# If the above line is not correctly displayed, fix your editor first!
+
+general {
+        colors = true
+        interval = 5
+}
+
+order += "ipv6"
+#order += "wireless _first_"
+order += "ethernet _first_"
+#order += "battery all"
+order += "disk /"
+order += "disk /home"
+order += "disk /var"
+order += "cpu_temperature gpu"
+order += "cpu_temperature 0"
+order += "load"
+order += "cpu_usage"
+order += "memory"
+order += "volume master"
+order += "tztime local"
+
+wireless _first_ {
+        format_up = "W: (%quality at %essid) %ip"
+        format_down = "W: down"
+}
+
+ethernet _first_ {
+        format_up = "E: %ip (%speed)"
+        format_down = "E: down"
+}
+
+battery all {
+        format = "%status %percentage %remaining"
+}
+
+disk "/" {
+        format = "/ %avail"
+}
+
+disk "/home" {
+        format = "/home %avail"
+}
+
+disk "/var" {
+        format = "/var %avail"
+}
+
+# GPU: /sys/devices/pci0000:00/0000:00:03.1/0000:2d:00.0/0000:2e:00.0/0000:2f:00.0/hwmon/hwmon2/
+# temp1_label	edge
+# temp2_label	junction
+# temp3_label	mem 
+cpu_temperature gpu {
+	format = "G: %degrees°C"
+	#format_above_threshold = "GPU W: %degrees °C"
+	path = "/sys/devices/pci0000:00/0000:00:03.1/0000:2d:00.0/0000:2e:00.0/0000:2f:00.0/hwmon/hwmon2/temp2_input"
+	max_threshold = 95
+}
+
+# CPU: /sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon3/
+# temp1_label	Tctl
+# temp2_label	Tdie
+# temp3_label	Tccd1
+cpu_temperature 0 {
+	format = "C: %degrees°C"
+	#format_above_threshold = "C W: %degrees °C"
+	path = "/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon3/temp2_input"
+	max_threshold = 80
+}
+
+load {
+        format = "%1min"
+	max_threshold = 12
+}
+
+cpu_usage {
+	format = "%usage"
+}
+
+memory {
+        format = "%used / %available"
+        threshold_degraded = "1G"
+        format_degraded = "MEMORY < %available"
+}
+
+volume master {
+	#format = "🔊 %volume"
+	#format_muted = "🔇"
+	format = "Vol: %volume"
+	format_muted = "Vol: m"
+	device = "pulse:alsa_output.pci-0000_31_00.4.iec958-stereo"
+}
+
+tztime local {
+        format = "%Y-%m-%d %H:%M:%S"
+}
