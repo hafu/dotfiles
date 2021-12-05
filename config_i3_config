@@ -210,6 +210,10 @@ bindsym Control+mod1+Break exec --no-startup-id systemctl hibernate &
 # suspend
 #bindcode Control+Shift+mod1+110 exec --no-startup-id systemctl suspend &
 bindsym Control+Shift+mod1+Break exec --no-startup-id systemctl suspend &
+# screenshot
+bindsym --release Print exec --no-startup-id /usr/bin/scrot '/tmp/Screenshot_%Y-%m-%d_%H-%M-%S.png' -e 'xclip -selection clipboard -target image/png -i $f && notify-send "Screenshot saved as $f"'
+bindsym --release Control+Print exec --no-startup-id /usr/bin/scrot -u -b '/tmp/Screenshot_%Y-%m-%d_%H-%M-%S.png' -e 'xclip -selection clipboard -target image/png -i $f && notify-send "Screenshot saved as $f"'
+bindsym --release $mod+Print exec --no-startup-id /usr/bin/scrot -s '/tmp/Screenshot_%Y-%m-%d_%H-%M-%S.png' -e 'xclip -selection clipboard -target image/png -i $f && notify-send "Screenshot saved as $f"'
 
 
 # Start i3bar to display a workspace bar (plus the system information i3status
