@@ -1,0 +1,16 @@
+// rofi -modi combi,window,ssh -show combi -combi-modi run,drun -width 100 -location 1 -lines 5 -bw 2 -yoffset -2 -show-icons -theme Adapta-Nokto
+configuration {
+	modi: "combi,window,ssh";
+    combi-modi: "run,drun";
+    show-icons: true;
+}
+
+// theme and theme options
+@theme "Adapta-Nokto"
+window {
+    location: north;
+    width: 100%;
+}
+listview {
+    lines: 5;
+}
