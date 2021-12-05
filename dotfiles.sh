@@ -33,7 +33,7 @@ SCRIPTDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 # static vars
 FILEMAP="$SCRIPTDIR/FILEMAP"
-HOSTNAME=$(hostname)
+HOSTNAME=$(hostname 2>/dev/null || cat /etc/hostname)
 
 # check if file is in filemap
 function is_in_filemap {
