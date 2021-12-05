@@ -38,7 +38,7 @@ font pango:Source Code Pro 10
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork --color 002b36 --ignore-empty-password --show-failed-attempts 
 
 # xautolock - fire up programs in case of user inactivity under X
-exec --no-startup-id xautolock -time 15 -locker "i3lock --color 002b36 --ignore-empty-password --show-failed-attempts"
+#exec --no-startup-id xautolock -time 15 -locker "i3lock --color 002b36 --ignore-empty-password --show-failed-attempts"
 
 # automount devices
 exec --no-startup-id udiskie --automount --notify --smart-tray --no-file-manager --menu flat
@@ -201,7 +201,8 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 # lock screen and turn it off
-bindsym Control+mod1+l exec --no-startup-id i3lock --color 002b36 --ignore-empty-password --show-failed-attempts && sleep 3 && xset dpms force off
+#bindsym Control+mod1+l exec --no-startup-id i3lock --color 002b36 --ignore-empty-password --show-failed-attempts && sleep 3 && xset dpms force off
+bindsym Control+mod1+l exec --no-startup-id loginctl lock-session && sleep 3 && xset dpms force off
 
 # hibernate
 #bindcode Control+mod1+110 exec --no-startup-id systemctl hibernate &
