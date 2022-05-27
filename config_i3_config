@@ -49,6 +49,8 @@ exec --no-startup-id udiskie --automount --notify --smart-tray --no-file-manager
 
 # razer mouse
 exec --no-startup-id /usr/bin/polychromatic-tray-applet
+# bluetooth applet
+exec --no-startup-id /usr/bin/blueman-applet
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
