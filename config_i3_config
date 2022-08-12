@@ -179,21 +179,25 @@ bindsym $mod+r mode "resize"
 # lock the screen with i3lock
 #bindsym Control+mod1+l exec --no-startup-id i3lock -f
 # lock sreen and turn it off
-bindsym Control+mod1+l exec --no-startup-id i3lock -c d3d3d3 -e -f && sleep 3 && xset dpms force off
+#bindsym Control+mod1+l exec --no-startup-id i3lock -c 002b36 -e -f && sleep 3 && xset dpms force off
+bindsym Control+mod1+l exec --no-startup-id loginctl lock-session && sleep 3 && xset dpms force off
 bindsym XF86Display exec --no-startup-id /home/hfuchs/bin/toggle-monitor
 # suspend / hibernate
-bindcode Control+179 exec --no-startup-id i3lock -c d3d3d3 -e -f && systemctl suspend
-bindcode Control+mod1+179 exec --no-startup-id systemctl hibernate
+#bindcode Control+179 exec systemctl suspend
+#bindcode Control+mod1+179 systemctl hibernate
 # multimedia
-bindsym XF86AudioRaiseVolume exec --no-startup-id /usr/bin/pactl set-sink-volume $(/usr/bin/pacmd list-sinks | grep -e 'index' -e 'alsa.card_name' | grep -e 'PCH' -B1 | head -n1 | awk '{print $NF}') +5% 
-bindsym XF86AudioLowerVolume exec --no-startup-id /usr/bin/pactl set-sink-volume $(/usr/bin/pacmd list-sinks | grep -e 'index' -e 'alsa.card_name' | grep -e 'PCH' -B1 | head -n1 | awk '{print $NF}') -5% 
-bindsym XF86AudioMute exec --no-startup-id /usr/bin/pactl set-sink-mute $(/usr/bin/pacmd list-sinks | grep -e 'index' -e 'alsa.card_name' | grep -e 'PCH' -B1 | head -n1 | awk '{print $NF}') toggle 
+bindsym XF86AudioRaiseVolume exec --no-startup-id /usr/bin/pactl set-sink-volume $(/usr/bin/pacmd list-sinks | grep -e 'index' -e 'alsa.card_name' | grep -e 'PCH' -B1 | head -n1 | awk '{print $NF}') +5%
+bindsym XF86AudioLowerVolume exec --no-startup-id /usr/bin/pactl set-sink-volume $(/usr/bin/pacmd list-sinks | grep -e 'index' -e 'alsa.card_name' | grep -e 'PCH' -B1 | head -n1 | awk '{print $NF}') -5%
+bindsym XF86AudioMute exec --no-startup-id /usr/bin/pactl set-sink-mute $(/usr/bin/pacmd list-sinks | grep -e 'index' -e 'alsa.card_name' | grep -e 'PCH' -B1 | head -n1 | awk '{print $NF}') toggle
 # pactl set-source-mute 1 toggle
-bindsym XF86AudioMicMute exec --no-startup-id /usr/bin/pactl set-source-mute $(/usr/bin/pacmd list-sources | grep -e 'alsa_input' -e 'active.*-mic' -B1 | head -n1 | awk '{print $NF}') toggle
+#bindsym XF86AudioMicMute exec --no-startup-id /usr/bin/pactl set-source-mute $(/usr/bin/pacmd list-sources | grep -e 'alsa_input' -e 'active.*-mic' -B1 | head -n1 | awk '{print $NF}') toggle
+#bindsym XF86Tools exec --no-startup-id /usr/bin/pactl set-source-mute $(/usr/bin/pacmd list-sources | grep -e 'alsa_input' -e 'active.*-mic' -B1 | head -n1 | awk '{print $NF}') toggle
+bindsym XF86AudioMicMute exec --no-startup-id /home/hfuchs/bin/toggle-mic
+bindsym XF86Tools exec --no-startup-id /home/hfuchs/bin/toggle-mic
 bindsym XF86AudioPlay exec --no-startup-id /usr/bin/playerctl play-pause
 bindsym XF86AudioNext exec --no-startup-id /usr/bin/playerctl next
 bindsym XF86AudioPrev exec --no-startup-id /usr/bin/playerctl previous
-# screenshot 
+# screenshot
 bindsym --release Print exec --no-startup-id /usr/bin/scrot '/tmp/Screenshot_%Y-%m-%d_%H-%M-%S.png' -e 'xclip -selection clipboard -target image/png -i $f && notify-send "Screenshot saved as $f"'
 bindsym --release Control+Print exec --no-startup-id /usr/bin/scrot -u -b '/tmp/Screenshot_%Y-%m-%d_%H-%M-%S.png' -e 'xclip -selection clipboard -target image/png -i $f && notify-send "Screenshot saved as $f"'
 bindsym --release $mod+Print exec --no-startup-id /usr/bin/scrot -s '/tmp/Screenshot_%Y-%m-%d_%H-%M-%S.png' -e 'xclip -selection clipboard -target image/png -i $f && notify-send "Screenshot saved as $f"'
