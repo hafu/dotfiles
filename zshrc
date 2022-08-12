@@ -101,6 +101,9 @@ alias ssh='TERM=xterm-256color ssh'
 
 # expand path
 export PATH=$PATH:$HOME/bin
+# https://superuser.com/questions/691395/git-tag-with-gpg-agent-and-pinentry-curses
+# use tty/ncurses for gpg git signing
+export GPG_TTY=$(tty)
 
 # Alt+. may improve
 bindkey '\e.' insert-last-word
