@@ -136,8 +136,10 @@ bindsym $mod+Shift+0xdf move container to workspace "11:mon"
 bindsym $mod+Tab workspace back_and_forth
 
 # move workspace
-bindsym $mod+m move workspace to output left
-bindysm $mod+Shift+m move workspace to output right
+bindsym $mod+Control+Left move workspace to output left
+bindsym $mod+Control+Down move workspace to output down
+bindsym $mod+Control+Up move workspace to output up
+bindsym $mod+Control+Right move workspace to output right
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
