@@ -35,7 +35,7 @@ font pango:Source Code Pro 10
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork --color 002b36 --ignore-empty-password --show-failed-attempts 
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork --color 002b36 --ignore-empty-password --show-failed-attempts
 
 # xautolock - fire up programs in case of user inactivity under X
 #exec --no-startup-id xautolock -time 15 -locker "i3lock --color 002b36 --ignore-empty-password --show-failed-attempts"
