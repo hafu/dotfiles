@@ -233,6 +233,9 @@ bindsym --release $mod+Print exec --no-startup-id /usr/bin/scrot -s '/tmp/Screen
 # finds out, if available)
 bar {
 	tray_output primary
-        status_command i3status
+        status_command i3status-rs
+	colors {
+		background #222D32
+	}
 }
 
