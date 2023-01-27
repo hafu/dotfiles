@@ -2,11 +2,15 @@
 configuration {
     modi: "combi,window,ssh";
     combi-modi: "drun,run,window";
-    width: 100;
-    lines: 5;
     location: 1;
-    bw: 2;
     yoffset: -2;
     show-icons: true;
-    theme: "Adapta-Nokto";    
 }
+@theme "Adapta-Nokto"
+listview {
+    lines: 10;
+}
+window {
+    width: 100%;
+}
+
