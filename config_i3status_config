@@ -70,7 +70,7 @@ cpu_temperature gpu {
 cpu_temperature 0 {
 	format = "C: %degrees°C"
 	#format_above_threshold = "C W: %degrees °C"
-	path = "/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon3/temp2_input"
+	path = "/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon3/temp3_input"
 	max_threshold = 80
 }
 
