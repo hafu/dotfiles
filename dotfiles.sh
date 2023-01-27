@@ -81,7 +81,7 @@ function ask_yes_no {
 		esac
 	done
 
-	return $A
+	return "$A"
 }
 
 # adds a file
