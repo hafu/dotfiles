@@ -50,7 +50,7 @@ Examples:
 
 ### del
 
-Deletes a file from the repository and FILEMAP and/or from the 
+Deletes a file from the repository and FILEMAP and/or from the
 Filesystem.
 
 Examples:
