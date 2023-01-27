@@ -11,6 +11,7 @@ general {
         interval = 10
 }
 
+order += "path_exists reboot-required"
 order += "ipv6"
 #order += "disk /"
 order += "wireless _first_"
@@ -21,6 +22,7 @@ order += "disk /"
 order += "disk /var"
 order += "disk /home"
 order += "battery all"
+order += "cpu_temperature G"
 order += "cpu_temperature P0"
 #order += "cpu_temperature C0"
 #order += "cpu_temperature C1"
@@ -84,29 +86,34 @@ cpu_usage {
 	format = "%usage"
 }
 
+cpu_temperature G {
+	format = "  %degrees °C (G)"
+	path = "/sys/devices/platform/thinkpad_hwmon/hwmon/hwmon4/temp2_input"
+}
+
 cpu_temperature P0 {
-	format = "  %degrees °C"
-	path = "/sys/devices/platform/coretemp.0/hwmon/hwmon6/temp1_input"
+	format = "  %degrees °C (P0)"
+	path = "/sys/devices/platform/coretemp.0/hwmon/hwmon7/temp1_input"
 }
 
 cpu_temperature C0 {
 	format = "C0: %degrees °C"
-	path = "/sys/devices/platform/coretemp.0/hwmon/hwmon4/temp2_input"
+	path = "/sys/devices/platform/coretemp.0/hwmon/hwmon7/temp2_input"
 }
 
 cpu_temperature C1 {
 	format = "C1: %degrees °C"
-	path = "/sys/devices/platform/coretemp.0/hwmon/hwmon4/temp3_input"
+	path = "/sys/devices/platform/coretemp.0/hwmon/hwmon7/temp3_input"
 }
 
 cpu_temperature C2 {
 	format = "C2: %degrees °C"
-	path = "/sys/devices/platform/coretemp.0/hwmon/hwmon4/temp4_input"
+	path = "/sys/devices/platform/coretemp.0/hwmon/hwmon7/temp4_input"
 }
 
 cpu_temperature C3 {
 	format = "C0: %degrees °C"
-	path = "/sys/devices/platform/coretemp.0/hwmon/hwmon4/temp5_input"
+	path = "/sys/devices/platform/coretemp.0/hwmon/hwmon7/temp5_input"
 }
 
 volume master {
@@ -114,4 +121,9 @@ volume master {
 	#format_muted = "♪: muted (%volume)"
 	format_muted = ""
 	device = "pulse:alsa_output.pci-0000_00_1f.3.analog-stereo"
+}
+
+path_exists reboot-required {
+    path = "/var/run/reboot-required"
+    format_down = ""
 }
