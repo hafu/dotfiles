@@ -8,7 +8,7 @@ to the repository.
 
 ```sh
 git clone https://github.com/hafu/dotfiles.git ~/.dotfiles
-cd ~/.dotfiles.sh
+cd ~/.dotfiles
 ./dotfiles.sh init
 ```
 
