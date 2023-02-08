@@ -4,3 +4,4 @@ zshrc ~/.zshrc
 config_alacritty_alacritty.yml ~/.config/alacritty/alacritty.yml
 config_rofi_config.rasi ~/.config/rofi/config.rasi
 config_i3status-rust_config.toml ~/.config/i3status-rust/config.toml
+config_starship.toml ~/.config/starship.toml

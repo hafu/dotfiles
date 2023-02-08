@@ -1,8 +1,6 @@
 # Set up the prompt
 autoload -Uz promptinit
 promptinit
-PS_PART1="%(!.%F{red}.%F{fg}%n@%F{green})%m%F{black}:%F{blue}%(!.%1~.%~)"
-PS_PART2="%(!.%F{red}#.%F{fg}$)%f "
 
 # history opts, see http://zsh.sourceforge.net/Doc/Release/Options.html#History
 #setopt APPEND_HISTORY
@@ -54,38 +52,8 @@ settermtitle () {
     esac
 }
 
-# VCS integration
-# TODO: only for git atm, use internal for other VCS
-if [[ -r /usr/lib/git-core/git-sh-prompt ]]; then
-    source /usr/lib/git-core/git-sh-prompt
-    GIT_PS1_SHOWDIRTYSTATE=1
-    GIT_PS1_SHOWSTASHSTATE=1
-    GIT_PS1_SHOWUNTRACKEDFILES=1
-    GIT_PS1_SHOWUPSTREAM="auto"
-    GIT_PS1_STATESEPARATOR=":"
-    precmd() {
-        __git_ps1 "$PS_PART1%F{magenta}" "%f$PS_PART2" " (%s)"
-        settermtitle
-    }
-else
-    # fallback to internal
-    autoload -Uz vcs_info
-    zstyle ':vcs_info:git:*' check-for-changes true
-    zstyle ':vcs_info:*' unstagedstr '*'
-    zstyle ':vcs_info:*' stagedstr '+'
-    zstyle ':vcs_info:*' formats ' (%b%u%c)'
-    zstyle ':vcs_info:*' actionformats ' (%b|%a%u%c)'
+precmd_functions+=(settermtitle)
 
-    precmd() {
-        vcs_info
-        if [[ -n ${vcs_info_msg_0_} ]]; then
-            PS1="${PS_PART1}%F{magenta}${vcs_info_msg_0_}%f${PS_PART2}"
-        else
-            PS1="${PS_PART1}${PS_PART2}"
-        fi
-        settermtitle
-    } 
-fi
 
 # aliases
 if [[ -x /usr/bin/dircolors ]]; then
@@ -107,3 +75,6 @@ export GPG_TTY=$(tty)
 
 # Alt+. may improve
 bindkey '\e.' insert-last-word
+
+# https://starship.rs/
+eval "$(/home/hfuchs/git/starship/target/release/starship init zsh)"

@@ -13,6 +13,19 @@ window:
 
 # Font configuration (changes require restart)
 font:
+  normal:
+    family: DejaVuSansMono Nerd Font Mono
+    style: Book
+  bold:
+    family: DejaVuSansMono Nerd Font Mono
+    style: Bold
+  italic:
+    family: DejaVuSansMono Nerd Font Mono
+    style: Oblique
+  bold_italic:
+    family: DejaVuSansMono Nerd Font Mono
+    style: Bold Oblique
+
   # The size to use.
   size: 11
 
