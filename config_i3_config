@@ -51,6 +51,8 @@ exec --no-startup-id udiskie --automount --notify --smart-tray --no-file-manager
 exec --no-startup-id /usr/bin/polychromatic-tray-applet
 # bluetooth applet
 exec --no-startup-id /usr/bin/blueman-applet
+# redshift
+exec --no-startup-id /usr/bin/redshift-gtk -l 52.39:13.06
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
