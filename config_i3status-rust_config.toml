@@ -1,7 +1,7 @@
 [theme]
-name = "modern"
+theme = "modern"
 [theme.overrides]
-separator = ""
+#separator = ""
 info_bg = "#222D32"
 info_fg = "#449CDB"
 good_bg = "#222D32"
@@ -10,59 +10,56 @@ warning_bg = "#222D32"
 warning_fg = "#FE7E29"
 
 [icons]
-name = "awesome"
+icons = "awesome4"
 
 [[block]]
 block = "external_ip"
-format = "{ip}"
+format = "$ip "
 interval = 3600
 error_interval = 300
 
 [[block]]
 block = "net"
 device = "enp39s0"
-format = " {ipv6} {ip} ({bitrate}) {speed_down;K*b}{speed_up;K*b}"
+format = "$icon $ipv6 $ip ^icon_net_down$speed_down.eng(prefix:K,unit:b) ^icon_net_up$speed_up.eng(prefix:K,unit:b) "
+missing_format = ""
 interval = 5
-hide_inactive = true
-icons_format = "{icon}"
 
 [[block]]
 block = "disk_space"
 path = "/"
-alias = "/"
 info_type = "available"
-unit = "GB"
+alert_unit = "GB"
 interval = 20
-warning = 20.0
-alert = 10.0
-format = "{alias} {available}"
+warning = 7.0
+alert = 5.0
+format = "/ $available "
 
 [[block]]
 block = "disk_space"
 path = "/home"
-alias = "/home"
 info_type = "available"
-unit = "GB"
+alert_unit = "GB"
 interval = 20
 warning = 10.0
 alert = 5.0
-format = "{alias} {available}"
+format = "/home $available "
 
 [[block]]
 block = "disk_space"
 path = "/var"
-alias = "/var"
 info_type = "available"
-unit = "GB"
+alert_unit = "GB"
 interval = 20
-warning = 10.0
+warning = 7.0
 alert = 5.0
-format = "{alias} {available}"
+format = "/var $available "
 
 [[block]]
 block = "temperature"
 chip = "amdgpu-*"
-format = "G: {min} min, {max} max, {average} avg"
+format = "$icon G: $average"
+format_alt = "$icon G: $min min, $max max, $average avg "
 inputs = ["edge", "junction", "mem"]
 idle = 60
 info = 80
@@ -71,26 +68,24 @@ warning = 95
 [[block]]
 block = "temperature"
 chip = "k10temp-*"
-format = "C: {min} min, {max} max, {average} avg"
+format = "$icon C: $average"
+format_alt = "$icon C: $min min, $max max, $average avg "
 idle = 50
 info = 60
 
 [[block]]
 block = "memory"
-display_type = "memory"
-#format_mem = "{mem_used_percents}"
-format_mem = "{mem_used} {mem_used_percents}"
-#format_swap = "{swap_used_percents}"
+format = "$icon $mem_used $mem_used_percents "
 
 [[block]]
 block = "cpu"
 interval = 5
-format = "{utilization} {frequency}"
+format = "$icon $utilization $frequency "
 
 [[block]]
 block = "load"
 interval = 5
-format = "{1m}"
+format = "$icon $1m "
 info = 1
 warning = 8
 critical = 16
@@ -100,37 +95,46 @@ block = "sound"
 driver = "pulseaudio"
 name = "alsa_output.usb-Focusrite_Scarlett_2i2_USB-00.analog-stereo"
 device_kind = "sink"
-format = "Ext: {volume}"
-on_click = "pactl set-sink-mute alsa_output.usb-Focusrite_Scarlett_2i2_USB-00.analog-stereo toggle"
+format = "Ext: $volume "
 show_volume_when_muted = true
+[[block.click]]
+button = "left"
+cmd = "pactl set-sink-mute alsa_output.usb-Focusrite_Scarlett_2i2_USB-00.analog-stereo toggle"
+
 
 [[block]]
 block = "sound"
 driver = "pulseaudio"
 name = "alsa_input.usb-Focusrite_Scarlett_2i2_USB-00.analog-stereo"
 device_kind = "source"
-on_click = "pactl set-source-mute alsa_input.usb-Focusrite_Scarlett_2i2_USB-00.analog-stereo toggle"
 show_volume_when_muted = true
+[[block.click]]
+button = "left"
+cmd = "pactl set-source-mute alsa_input.usb-Focusrite_Scarlett_2i2_USB-00.analog-stereo toggle"
 
 [[block]]
 block = "sound"
 driver = "pulseaudio"
 name = "alsa_output.pci-0000_31_00.4.iec958-stereo"
 device_kind = "sink"
-format = "Opt: {volume}"
-on_click = "pactl set-sink-mute alsa_output.pci-0000_31_00.4.iec958-stereo toggle"
+format = "Opt: $volume"
 show_volume_when_muted = true
+[[block.click]]
+button = "left"
+cmd = "pactl set-sink-mute alsa_output.pci-0000_31_00.4.iec958-stereo toggle"
 
 [[block]]
 block = "bluetooth"
 mac = "98:7A:14:94:B6:94"
-format = "{label}"
+format = "$icon {$percentage|}"
+disconnected_format = "$icon "
 #on_click = "blueman-manager"
 
 [[block]]
 block = "time"
 interval = 5
-format = "%Y-%m-%d %H:%M:%S"
+[block.format]
+full = "$icon $timestamp.datetime(f:'%Y-%m-%d %H:%M:%S')"
 
 [[block]]
 block = "battery"
