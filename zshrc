@@ -75,18 +75,31 @@ autoload -Uz vcs_info
 zstyle ':vcs_info:git:*' check-for-changes true
 zstyle ':vcs_info:*' unstagedstr '*'
 zstyle ':vcs_info:*' stagedstr '+'
-zstyle ':vcs_info:*' formats ' (%b%u%c)'
+zstyle ':vcs_info:*' formats ' %%F{yellow}(%b%%F{red}%u%c%%F{yellow})'
 zstyle ':vcs_info:*' actionformats ' (%b|%a%u%c)'
+zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
 
-precmd() {
++vi-git-untracked(){
+    if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]] && \
+        git status --porcelain | grep -q '^?? ' 2> /dev/null ; then
+        # This will show the marker if there are any untracked files in repo.
+        # If instead you want to show the marker only if there are untracked
+        # files in $PWD, use:
+        ##[[ -n $(git ls-files --others --exclude-standard) ]] ; then
+        hook_com[staged]+='?'
+    fi
+}
+
+vcsinfoterm() {
     vcs_info
     if [[ -n ${vcs_info_msg_0_} ]]; then
-        PS1="${PS_PART1}%F{magenta}${vcs_info_msg_0_}%f${PS_PART2}"
+        PS1="${PS_PART1}${vcs_info_msg_0_}${PS_PART2}"
     else
-        PS1="${PS_PART1}${PS_PART2}"
+        PS1="${PS_PART1} ${PS_PART2}"
     fi
-    settermtitle
 } 
+
+precmd_functions+=(settermtitle vcsinfoterm)
 
 # History options
 #
