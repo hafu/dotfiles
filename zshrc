@@ -119,6 +119,8 @@ HISTFILE=~/.zsh_histfile
 HISTSIZE=900000
 SAVEHIST=800000
 
+path+=("${HOME}/.local/bin")
+export PATH
 
 # The following lines were added by compinstall
 
