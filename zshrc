@@ -59,7 +59,7 @@ promptinit
 
 # vars to setup PS1
 PS_PART1="%(!.%F{red}.%F{fg}%n@%F{green})%m%F{fg}:%F{blue}%(!.%1~.%~)"
-PS_PART2="%(!.%F{red}#.%F{fg}$)%f "
+PS_PART2="%(!.%F{red}#.%F{fg}❯)%f "
 
 # setterminal title to user@host:path
 settermtitle () {
