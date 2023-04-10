@@ -122,6 +122,9 @@ SAVEHIST=800000
 path+=("${HOME}/.local/bin")
 export PATH
 
+export GPG_TTY=$(tty)
+gpg-connect-agent updatestartuptty /bye >/dev/null
+
 # The following lines were added by compinstall
 
 zstyle ':completion:*' completer _complete _ignored _approximate
