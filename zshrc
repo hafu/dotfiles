@@ -69,9 +69,15 @@ alias ssh='TERM=xterm-256color ssh'
 
 # expand path
 export PATH=$PATH:$HOME/bin
+# https://wiki.archlinux.org/title/GnuPG#gpg-agent
+unset SSH_AGENT_PID
+if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+      export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+fi
 # https://superuser.com/questions/691395/git-tag-with-gpg-agent-and-pinentry-curses
 # use tty/ncurses for gpg git signing
 export GPG_TTY=$(tty)
+gpg-connect-agent updatestartuptty /bye >/dev/null
 
 # Alt+. may improve
 bindkey '\e.' insert-last-word
