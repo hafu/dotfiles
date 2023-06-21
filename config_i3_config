@@ -216,6 +216,8 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork --color 0
 exec --no-startup-id /usr/bin/pasystray
 # redshift
 exec --no-startup-id /usr/bin/redshift-gtk -l 52.39:13.06
+# autorandr
+exec --no-startup-id /usr/bin/autorandr --change 2>&1 >/dev/null
 
 
 # Start i3bar to display a workspace bar (plus the system information i3status
