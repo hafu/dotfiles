@@ -84,3 +84,7 @@ bindkey '\e.' insert-last-word
 
 # https://starship.rs/
 eval "$(/home/hfuchs/git/starship/target/release/starship init zsh)"
+
+# Created by `pipx` on 2023-06-20 09:00:47
+export PATH="$PATH:/home/hfuchs/.local/bin"
+
