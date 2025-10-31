@@ -104,20 +104,23 @@ precmd_functions+=(settermtitle vcsinfoterm)
 # History options
 #
 # http://zsh.sourceforge.net/Doc/Release/Options.html#History
-unsetopt INC_APPEND_HISTORY
-unsetopt INC_APPEND_HISTORY_TIME
+HISTFILE=~/.zsh_histfile
+HISTSIZE=900000
+SAVEHIST=900000
+unsetopt SHARE_HISTORY
 setopt HIST_EXPIRE_DUPS_FIRST
 setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_IGNORE_DUPS
+# setopt HIST_IGNORE_DUPS
 setopt HIST_IGNORE_SPACE
 setopt HIST_REDUCE_BLANKS
 setopt HIST_SAVE_NO_DUPS
 setopt HIST_VERIFY
-setopt SHARE_HISTORY
-
-HISTFILE=~/.zsh_histfile
-HISTSIZE=900000
-SAVEHIST=800000
+setopt INC_APPEND_HISTORY_TIME
+# make a backup (may use systemd timer?)
+CUR_DATE=$(date +%F)
+if [ ! -f "${HISTFILE}.${CUR_DATE}" ]; then
+    cp "${HISTFILE}" "${HISTFILE}.${CUR_DATE}"
+fi
 
 path+=("${HOME}/.local/bin")
 export PATH
