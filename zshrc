@@ -64,7 +64,7 @@ PS_PART2="%(!.%F{red}#.%F{fg}❯)%f "
 # setterminal title to user@host:path
 settermtitle () {
     case $TERM in
-        *xterm*|rxvt|(dt|k|E)term|alacritty)
+        *xterm*|rxvt|(dt|k|E)term|alacritty|foot)
             print -Pn "\e]0;%n@%m: %~\a"
             ;;
     esac
