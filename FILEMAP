@@ -4,3 +4,4 @@ config_i3_config ~/.config/i3/config
 zshrc ~/.zshrc
 config_rofi_config.rasi ~/.config/rofi/config.rasi
 config_i3status-rust_config.toml ~/.config/i3status-rust/config.toml
+config_helix_config.toml ~/.config/helix/config.toml

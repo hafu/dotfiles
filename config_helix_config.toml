@@ -1,0 +1,21 @@
+[editor]
+mouse = false
+line-number = "relative"
+rulers = [80, 100, 120] 
+bufferline = "multiple"
+insert-final-newline = false
+end-of-line-diagnostics = "hint"
+
+[editor.statusline]
+center = ["version-control"]
+
+# [editor.indent-guides]
+# reder = true
+# character = "╎" # Some characters that work well: "▏", "┆", "┊", "⸽"
+
+[editor.soft-wrap]
+enable = true
+
+[editor.inline-diagnostics]
+cursor-line = "warning" # show warnings and errors on the cursorline inline
+other-lines = "error"
