@@ -53,6 +53,7 @@ if [[ -x /usr/bin/dircolors ]]; then
 fi
 
 alias vi='vim'
+alias hx='helix'
 
 autoload -Uz promptinit
 promptinit
