@@ -5,3 +5,7 @@ zshrc ~/.zshrc
 config_rofi_config.rasi ~/.config/rofi/config.rasi
 config_i3status-rust_config.toml ~/.config/i3status-rust/config.toml
 config_helix_config.toml ~/.config/helix/config.toml
+config_sway_config ~/.config/sway/config
+config_fuzzel_fuzzel.ini ~/.config/fuzzel/fuzzel.ini
+config_waybar_config ~/.config/waybar/config
+config_waybar_style.css ~/.config/waybar/style.css

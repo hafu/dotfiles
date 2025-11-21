@@ -1,0 +1,382 @@
+# Default config for sway
+#
+# Copy this to ~/.config/sway/config and edit it to your liking.
+#
+# Read `man 5 sway` for a complete reference.
+#xwayland disable
+
+#font pango:SourceCodePro Regular 11
+font monospace 10
+
+### Variables
+#
+# Logo key. Use Mod1 for Alt.
+set $mod Mod4
+# Home row direction keys, like vim
+# NOTE: Colmark-DH
+set $left n
+set $down e
+set $up i
+set $right o
+# Your preferred terminal emulator
+set $term foot
+# Your preferred application launcher
+# Note: pass the final command to swaymsg so that the resulting window can be opened
+# on the original workspace that the command was run on.
+#set $menu dmenu_path | dmenu | xargs swaymsg exec --
+#set $menu dmenu_path | wofi --show dmenu | xargs swaymsg exec --
+set $menu /usr/bin/fuzzel | xargs swaymsg exec --
+
+
+### Output configuration
+#
+# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
+#output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+#
+# Example configuration:
+#
+#   output HDMI-A-1 resolution 1920x1080 position 1920,0
+#
+# You can get the names of your outputs by running: swaymsg -t get_outputs
+output "Iiyama North America PL2760Q 1154103902604" {
+    #mode 2560x1440@59.951Hz
+    #mode 2560x1440@70.000Hz
+    mode 2560x1440@144Hz
+    pos 0,0
+}
+#output "Invalid Vendor Codename - RTK HDMI Unknown" {
+output HDMI-A-1 {
+   mode 1920x515@59.608Hz
+   # below Iiyam (1920+((2560-1920)/2))
+   pos 320,1440
+}
+
+### Idle configuration
+#
+# Example configuration:
+#
+# exec swayidle -w \
+#          timeout 300 'swaylock -f -c 000000' \
+#          timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+#          before-sleep 'swaylock -f -c 000000'
+#
+# This will lock your screen after 300 seconds of inactivity, then turn off
+# your displays after another 300 seconds, and turn your screens back on when
+# resumed. It will also lock your screen before your computer goes to sleep.
+#exec swayidle -w \
+#         timeout 300 'swaylock -f -c 002b36 --ignore-empty-password --show-failed-attempts' \
+#         timeout 600 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+#         before-sleep 'swaylock -f -c 002b36 --ignore-empty-password --show-failed-attempts'
+# NOTE: logind.conf will trigger lock
+exec swayidle -w \
+         lock 'swaylock -f -c 002b36 --ignore-empty-password --show-failed-attempts' \
+         timeout 300 'swaylock -f -c 002b36 --ignore-empty-password --show-failed-attempts' \
+         timeout 360 'swaymsg "output * power off"' \
+         resume 'swaymsg "output * power on"' \
+         before-sleep 'swaylock -f -c 002b36 --ignore-empty-password --show-failed-attempts'
+
+### Input configuration
+#
+# Example configuration:
+#
+#   input "2:14:SynPS/2_Synaptics_TouchPad" {
+#       dwt enabled
+#       tap enabled
+#       natural_scroll enabled
+#       middle_emulation enabled
+#   }
+#
+# You can get the names of your inputs by running: swaymsg -t get_inputs
+# Read `man 5 sway-input` for more information about this section.
+input "type:keyboard" {
+    # de(us) layout | us(default)
+    xkb_layout "de,us"
+    xkb_variant "us,"
+
+    # xkb_layout "us,de"
+    # xkb_variant ",nodeadkeys"
+    # xkb_options "compose:ralt"
+    #xkb_variant "intl,nodeadkeys"
+    #xkb_variant "nodeadkeys,altgr-intl"
+    #xkb_options grp:alt_shift_toggle
+    #xkb_options "grp:alt_shift_toggle,compose:sclk"
+}
+
+### Key bindings
+#
+# Basics:
+#
+# Start a terminal
+bindsym $mod+Return exec $term
+
+# Kill focused window
+bindsym $mod+Shift+q kill
+
+# Start your launcher
+bindsym $mod+d exec $menu
+
+# Start Emoji Selection
+#bindsym $mod+? exec BEMOJI_PICKER_CMD="fuzzel -d" bemoji 
+bindsym $mod+slash exec /usr/bin/gnome-characters
+
+# Drag floating windows by holding down $mod and left mouse button.
+# Resize them with right mouse button + $mod.
+# Despite the name, also works for non-floating windows.
+# Change normal to inverse to use left mouse button for resizing and right
+# mouse button for dragging.
+floating_modifier $mod normal
+
+# Reload the configuration file
+bindsym $mod+Shift+c reload
+
+# Exit sway (logs you out of your Wayland session)
+# TODO redefine, never used
+# bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+
+#
+# Extras:
+#
+# Screenshots
+set $screenshot /tmp/Screenshot_$(date +%Y%m%d-%H%M%S).png
+# Screenshot: Focosued Monitor/Screen
+bindsym --release Print exec /usr/bin/grim -o $(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name') $screenshot && wl-copy < $screenshot
+# Screenshot: Focused window
+bindsym --release Control+Print exec swaymsg -t get_tree | jq -j '.. | select(.type?) | select(.focused).rect | "\(.x),\(.y) \(.width)x\(.height)"' | /usr/bin/grim -g - $screenshot && wl-copy < $screenshot
+# Screenshot: Area
+bindsym --release $mod+Print exec /usr/bin/grim -g "$(slurp)" $screenshot && wl-copy < $screenshot
+
+# bindsym Control+mod1+l exec /usr/bin/loginctl lock-session && /usr/bin/swaymsg "output * power off"
+bindsym Control+mod1+l exec /usr/bin/loginctl lock-session
+# bindsym $mod+l exec /usr/bin/loginctl lock-session 
+bindsym XF86MonBrightnessDown exec /usr/bin/brightnessctl -c backlight -q s 5%-
+bindsym XF86MonBrightnessUp exec /usr/bin/brightnessctl -c backlight -q s +5%
+#
+# Multimedia:
+#
+set $audio_sink_toggle /usr/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+set $audio_source_toggle /usr/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+bindsym XF86AudioRaiseVolume exec /usr/bin/wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+
+bindsym XF86AudioLowerVolume exec /usr/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym XF86AudioMute exec $audio_sink_toggle
+bindsym XF86Launch5 exec $audio_sink_toggle
+bindsym XF86AudioMicMute exec $audio_source_toggle
+bindsym XF86Tools exec $audio_source_toggle
+#bindsym XF86Tools exec /user/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+#bindsym XF86AudioPlay exec /usr/bin/playerctl play-pause
+#bindsym XF86AudioNext exec /usr/bin/playerctl next
+#bindsym XF86AudioPrev exec /usr/bin/playerctl previous
+
+#
+# Notifications
+#
+bindsym Control+Space exec /usr/bin/makoctl dismiss
+bindsym Control+Shift+Space exec /usr/bin/makoctl dismiss -a
+
+#
+# Moving around:
+#
+# Move your focus around
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+# Or use $mod+[up|down|left|right]
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# Move the focused window with the same, but add Shift
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+# Ditto, with arrow keys
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+#
+# Workspaces:
+#
+# Switch to workspace
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+bindsym $mod+0xdf workspace number 11
+bindsym $mod+comma workspace number 11
+# Move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+bindsym $mod+Shift+0xdf move container to workspace number 11
+bindsym $mod+Shift+comma move container to workspace number 11
+# Note: workspaces can have any name you want, not just numbers.
+# We just use 1-10 as the default.
+# move workspaces
+bindsym $mod+Control+Left move workspace to output left
+bindsym $mod+Control+Down move workspace to output down
+bindsym $mod+Control+Up move workspace to output up
+bindsym $mod+Control+Right move workspace to output right
+# fast switching between workspaces (back and forth)
+bindsym $mod+Tab workspace back_and_forth
+workspace_auto_back_and_forth yes
+# set display
+workspace 1 output DP-1
+workspace 2 output DP-1
+workspace 8 output HDMI-A-1
+workspace 9 output DP-1
+#
+# Layout stuff:
+#
+# You can "split" the current object of your focus with
+# $mod+b or $mod+v, for horizontal and vertical splits
+# respectively.
+bindsym $mod+h splith
+bindsym $mod+v splitv
+
+# Switch the current container between different layout styles
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+b layout toggle split
+
+# Make the current focus fullscreen
+bindsym $mod+f fullscreen
+
+# Toggle the current focus between tiling and floating mode
+bindsym $mod+Shift+space floating toggle
+
+# Swap focus between the tiling area and the floating area
+bindsym $mod+space focus mode_toggle
+
+# Move focus to the parent container
+bindsym $mod+a focus parent
+#
+# Scratchpad:
+#
+# Sway has a "scratchpad", which is a bag of holding for windows.
+# You can send windows there and get them back later.
+
+# Move the currently focused window to the scratchpad
+bindsym $mod+Shift+minus move scratchpad
+
+# Show the next scratchpad window or hide the focused scratchpad window.
+# If there are multiple scratchpad windows, this command cycles through them.
+bindsym $mod+minus scratchpad show
+#
+# Resizing containers:
+#
+mode "resize" {
+    # left will shrink the containers width
+    # right will grow the containers width
+    # up will shrink the containers height
+    # down will grow the containers height
+    bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
+
+    # Ditto, with arrow keys
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+#
+# Status Bar:
+#
+# Read `man 5 sway-bar` for more information about this section.
+#bar {
+#    position top
+#
+#    # When the status_command prints a new line to stdout, swaybar updates.
+#    # The default just shows the current date and time.
+#    status_command while date +'%Y-%m-%d %I:%M:%S %p'; do sleep 1; done
+#
+#    colors {
+#        statusline #ffffff
+#        background #323232
+#        inactive_workspace #32323200 #32323200 #5c5c5c
+#    }
+#}
+bar {
+    swaybar_command waybar
+}
+
+#
+# Floating windows
+#
+for_window [title="Tor Browser"] floating enable
+for_window [class="Tor Browser"] floating enable
+for_window [title="Firefox - Choose User Profile"] floating enable
+for_window [title="Firefox — Sharing Indicator" app_id="firefox"] floating enable
+for_window [app_id="nm-connection-editor"] floating enable
+for_window [instance="pinentry-gtk" class="Pinentry-gtk"] floating enable
+for_window [app_id="org.gnome.Characters"] floating enable
+#for_window [app_id="com.nextcloud.desktopclient.nextcloud"] floating enable
+
+#
+# Startup 
+#
+exec systemctl --user import-environment XAUTHORITY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+exec dbus-update-activation-environment --systemd XAUTHORITY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+
+#exec_always systemctl --user start sway-session.target
+exec /usr/bin/udiskie --automount --notify --smart-tray
+# gnome-keyring
+exec /usr/bin/gnome-keyring-daemon --start --components=secrets
+
+
+exec /usr/bin/firefox -P chat
+exec /usr/bin/firefox -P default
+for_window [app_id="^firefox$"] layout tabbed
+for_window [app_id="^firefox$" title="((Save As)|(Speichern unter)|(File Upload))"] move window to workspace current
+for_window [app_id="^firefox$" title="Mozilla Firefox Private Browsing"] move window to workspace current
+assign [app_id="^firefox$"] → 1
+# for_window [app_id="^firefox$" title="^Speichern unter$"] move window to workspace current
+exec /usr/bin/thunderbird
+for_window [app_id="^thunderbird$"] layout tabbed
+assign [app_id="^thunderbird$"] → 2
+exec /usr/bin/element-desktop
+assign [class="^Element$"] → 2
+exec /usr/bin/signal-desktop --use-tray-icon --enable-features=UseOzonePlatform --ozone-platform=wayland --enable-features=WaylandWindowDecorations
+assign [app_id="^signal$"] → 2
+exec /usr/bin/steam -console
+assign [class="^steam$" instance="^steamwebhelper$" title="^Steam$"] → 9
+for_window [class="^steam$" instance="^steamwebhelper$" title="^Steam$"] layout tabbed
+assign [class="^steam$" instance="^steamwebhelper$" title="^Friends List$"] → 8
+assign [class="^steam$" instance="^steamwebhelper$" title=".*Chats?$"] → 8
+exec /usr/bin/keepassxc -platform wayland
+assign [app_id="^org.keepassxc.KeePassXC$"] → 10
+# for_window [title="^Unlock Database - KeePassXC$" app_id="^org.keepassxc.KeePassXC$"] move window to workspace current
+
+#
+#exec /usr/bin/nm-applet
+exec /usr/bin/nextcloud --background
+
+## set tabbed layout on workspace 1
+#exec /usr/bin/swaymsg 'workspace 1; layout tabbed;'
+## set tabbed layout on workspace 2
+#exec /usr/bin/swaymsg 'workspace 2; layout tabbed;'
+
+include /etc/sway/config.d/*
