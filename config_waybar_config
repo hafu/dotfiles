@@ -8,7 +8,7 @@
     "modules-left": ["sway/workspaces", "sway/mode", "sway/scratchpad"],
     // "modules-center": ["sway/window"],
     "modules-center": [],
-    "modules-right": ["idle_inhibitor", "network#ipv6", "network", "disk#root", "disk#var", "disk#home", "memory", "temperature#cpu","temperature#gpu",  "cpu", "pulseaudio", "backlight",  "battery", "sway/language", "clock", "tray"],
+    "modules-right": ["idle_inhibitor", "network#ipv6", "network", "disk#root", "disk#var", "disk#home", "memory", "temperature#cpu","temperature#gpu",  "cpu", "pulseaudio", "backlight",  "battery", "sway/language", "bluetooth", "clock", "tray"],
     // Modules configuration
     // "sway/workspaces": {
     //     "all-outputs": true,
@@ -215,6 +215,17 @@
         "format-muted": "",
         "format-icons": ["", "", ""],
         "scroll-step": 5
+    },
+    "bluetooth": {
+        // "controller": "controller1", // specify the alias of the controller if there are more than 1 on the system
+        "format": "  {status}",
+        "format-disabled": "", // an empty format will hide the module
+        // "format-connected": " {num_connectionsc} connected",
+        "format-connected": "  {device_alias}",
+        "format-connected-battery": "  {device_alias} {device_battery_percentage}%",
+        "tooltip-format": "{controller_alias}\t{controller_address}",
+        "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}",
+        "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}"
     },
 }
 
